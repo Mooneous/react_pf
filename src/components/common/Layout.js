@@ -18,7 +18,10 @@ function Layout({ children, name }) {
 				<h1>{name}</h1>
 			</figure>
 
-			<div className='inner'>{children}</div>
+			<div className='inner'>
+				<h1>{name}</h1>
+				{children}
+			</div>
 		</section>
 	);
 }
