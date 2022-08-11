@@ -3,12 +3,25 @@ import { useRef, useEffect, useState } from 'react';
 
 function Location() {
 	const { kakao } = window; //window에 있는 kakao객체를 비구조할당으로 가져오기~안그럼지도못가져와ㅠㅠ
+	//위치별로 관리할 정보값을 객체로 묶어서 다시 배열로 그룹핑
+	const info = [
+		{
+			title: '궁남지',
+			latlng: new kakao.maps.LatLng(36.2696545509031, 126.91221763712598),
+			imgUrl: process.env.PUBLIC_URL + '/img/marker1.png',
+			imgSize: new kakao.maps.Size(232, 99),
+			imgOpt: { offset: new kakao.maps.Point(116, 99) },
+		},
+	];
+
 	const container = useRef(null);
 	const [Location, setLocation] = useState(null);
 	const [Traffic, setTraffic] = useState(false);
+	//해당 지도관련 정보값이 변경될때마다 화면을 다시 렌더링하고 return문에서 편하게 호출하기 위해 Info 스테이트에 옮겨담음
+	const [Info, setInfo] = useState(info);
 
 	const option = {
-		center: new kakao.maps.LatLng(36.2696545509031, 126.91221763712598), // 지도의 중심좌표
+		center: Info[0].latlng, // 지도의 중심좌표
 		level: 3, // 지도의 확대 레벨
 	};
 
@@ -16,11 +29,9 @@ function Location() {
 	const markerPosition = option.center;
 
 	// 마커의 이미지 정보값(저장위치경로, 이미지크기, 이미지 안에서의 마커 좌표 )
-	const imgSrc = process.env.PUBLIC_URL + '/img/marker1.png';
-	const imgSize = new kakao.maps.Size(232, 99);
-	const imgOpt = {
-		offset: new kakao.maps.Point(116, 99),
-	};
+	const imgSrc = Info[0].imgUrl;
+	const imgSize = Info[0].imgSize;
+	const imgOpt = Info[0].imgOpt;
 
 	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성
 	const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize, imgOpt);
