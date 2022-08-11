@@ -72,6 +72,10 @@ function Location() {
 		//버튼활성화
 		// 	for (const btn of btns.current.children) btn.classList.remove('on');
 		// 	btns.current.children[Index].classList.add('on');
+		//컴포넌트 마운트시 window전역객체에 리사이즈 이벤트 연결
+		window.addEventListener('resize', () => {
+			map_instance.setCenter(Info[Index].latlng);
+		});
 	}, [Index]);
 	//▲기존에 의존성 배열이 비어져 있을때에는 그냥 컴포넌트 마운트시 지도가 한번 호출되고 마는 구조
 	//의존성 배열에 Index스테이트를 등록하면 지점버튼을 클릭해서 Index스테이트가 변경될때마다 새로 변경된 Index값 정보를 토대로 지도 재호출
