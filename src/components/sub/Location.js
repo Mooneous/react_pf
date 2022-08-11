@@ -54,7 +54,7 @@ function Location() {
 		<Layout name={'Location'}>
 			<div id='map' ref={container}></div>
 			{/* 지도 위 교통정보 표시, 제거 버튼*/}
-			<button onClick={() => setTraffic(!Traffic)}>Trafiic</button>
+			<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic OFF' : 'Traffic ON'}</button>
 		</Layout>
 	);
 }
