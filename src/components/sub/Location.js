@@ -5,6 +5,8 @@ function Location() {
 	const { kakao } = window; //window에 있는 kakao객체를 비구조할당으로 가져오기~안그럼지도못가져와ㅠㅠ
 	const container = useRef(null);
 	const [Location, setLocation] = useState(null);
+	const [Traffic, setTraffic] = useState(false);
+
 	const option = {
 		center: new kakao.maps.LatLng(36.2696545509031, 126.91221763712598), // 지도의 중심좌표
 		level: 3, // 지도의 확대 레벨
@@ -38,17 +40,21 @@ function Location() {
 		setLocation(map_instance);
 	}, []);
 
+	//Traffic값이 바뀔때마다 호출되는 useEffect문
+	useEffect(() => {
+		if (!Location) return;
+		//Traffic값이 true일때 교통량 표시
+		//그렇지 않으면 교통량 표시제거
+		Traffic
+			? Location.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
+			: Location.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+	}, [Traffic]);
+
 	return (
 		<Layout name={'Location'}>
 			<div id='map' ref={container}></div>
-			{/* 지도 위 교통정보 표시 */}
-			<button onClick={() => Location.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)}>
-				Trafiic ON
-			</button>
-			{/* 지도 위 교통정보 제거 */}
-			<button onClick={() => Location.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)}>
-				Trafiic OFF
-			</button>
+			{/* 지도 위 교통정보 표시, 제거 버튼*/}
+			<button onClick={() => setTraffic(!Traffic)}>Trafiic</button>
 		</Layout>
 	);
 }
