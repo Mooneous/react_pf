@@ -33,7 +33,7 @@ function Location() {
 	const [Location, setLocation] = useState(null);
 	const [Traffic, setTraffic] = useState(false);
 	//해당 지도관련 정보값이 변경될때마다 화면을 다시 렌더링하고 return문에서 편하게 호출하기 위해 Info 스테이트에 옮겨담음
-	const [Info, setInfo] = useState(info);
+	const [Info] = useState(info);
 	//지점버튼 클릭시 변경되는 순서값이 저장될 스테이트 추가
 	const [Index, setIndex] = useState(0);
 
@@ -89,9 +89,16 @@ function Location() {
 
 			{/* 지점보기 버튼 추가후 버튼 클릭시 해당 버튼의 순서값으로 Index스테이트 변경 */}
 			<ul className='branch'>
-				<li onClick={() => setIndex(0)}>궁남지</li>
+				{/* <li onClick={() => setIndex(0)}>궁남지</li>
 				<li onClick={() => setIndex(1)}>올림픽 공원</li>
-				<li onClick={() => setIndex(2)}>서울 시청</li>
+				<li onClick={() => setIndex(2)}>서울 시청</li> */}
+				{Info.map((info, idx) => {
+					return (
+						<li key={idx} onClick={() => setIndex(idx)}>
+							{info.title}
+						</li>
+					);
+				})}
 			</ul>
 		</Layout>
 	);
