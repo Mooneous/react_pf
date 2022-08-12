@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 function Members() {
 	const initVal = {
 		userid: '',
+		email: '',
+		pwd1: '',
+		pwd2: '',
 	};
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState({});
@@ -63,6 +66,38 @@ function Members() {
 								</td>
 							</tr>
 
+							{/* password */}
+							<tr>
+								<th scope='row'>
+									<label htmlFor='pwd1'>PASSWORD</label>
+								</th>
+								<td>
+									<input
+										type='password'
+										name='pwd1'
+										id='pwd1'
+										value={Val.pwd1}
+										placeholder='비밀번호를 입력하세요'
+										onChange={handleChange}
+									/>
+								</td>
+							</tr>
+							<tr>
+								<th scope='row'>
+									<label htmlFor='pwd2'>RE-PASSWORD</label>
+								</th>
+								<td>
+									<input
+										type='password'
+										name='pwd2'
+										id='pwd2'
+										value={Val.pwd2}
+										placeholder='비밀번호를 재입력하세요'
+										onChange={handleChange}
+									/>
+								</td>
+							</tr>
+
 							{/* email */}
 							<tr>
 								<th scope='row'>
@@ -73,6 +108,7 @@ function Members() {
 										type='text'
 										id='email'
 										name='email'
+										value={Val.email}
 										placeholder='이메일 주소를 입력하세요'
 										onChange={handleChange}
 									/>
