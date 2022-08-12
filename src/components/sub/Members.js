@@ -6,27 +6,25 @@ function Members() {
 		userid: '',
 	};
 	const [Val, setVal] = useState(initVal);
-	//인증 조건 실패시 출력될 에러메시지가 항목별로 담길 state추가
 	const [Err, setErr] = useState({});
 
-	//인증처리 함수
 	const check = (value) => {
 		const errs = {};
 
-		//userid인증 처리
+		//userid 인증처리
 		if (value.userid.length < 5) {
 			errs.userid = '아이디를 5글자 이상 입력하세요';
 		}
+		//email 인증처리
+		if (value.email.length < 8 || !/@/.test(value.email)) {
+			errs.email = '이메일주소는 8글자 이상 @를 포함하세요';
+		}
+
 		return errs;
 	};
 
-	//submit이벤트 발생시 실행할 함수
 	const handleSubmit = (e) => {
-		//일단은 이벤트의 기본기능을 막아서 서버전송 방지
 		e.preventDefault();
-
-		//check함수에 인수로 Val값을 넣어서 인증검사후
-		//반환된 에러객체값을 Err 스테이트에 옮겨담음
 		setErr(check(Val));
 	};
 
@@ -61,8 +59,24 @@ function Members() {
 										value={Val.userid}
 										onChange={handleChange}
 									/>
-									{/* 혹시 에러가 있으면 Err정보값을 화면에 출력 */}
 									<span className='err'>{Err.userid}</span>
+								</td>
+							</tr>
+
+							{/* email */}
+							<tr>
+								<th scope='row'>
+									<label htmlFor='email'>E-MAIL</label>
+								</th>
+								<td>
+									<input
+										type='text'
+										id='email'
+										name='email'
+										placeholder='이메일 주소를 입력하세요'
+										onChange={handleChange}
+									/>
+									<span className='err'>{Err.email}</span>
 								</td>
 							</tr>
 
