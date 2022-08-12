@@ -28,7 +28,12 @@ function Members() {
 			errs.email = '이메일주소는 8글자 이상 @를 포함하세요';
 		}
 		//pwd1 인증처리
-		if (value.pwd1 < 6 || !eng.test(value.pwd1) || !num.test(value.pwd1) || !spc.test(value.pwd1)) {
+		if (
+			value.pwd1.length < 6 ||
+			!eng.test(value.pwd1) ||
+			!num.test(value.pwd1) ||
+			!spc.test(value.pwd1)
+		) {
 			errs.pwd1 = '비밀번호는 6글자 이상, 영문, 숫자, 특수문자를 모두 포함하세요';
 		}
 		//pwd2 인증처리
