@@ -21,6 +21,16 @@ function Community() {
 		resetForm();
 	};
 
+	//글삭제 함수
+	const deletePost = (index) => {
+		//기존 Posts스테이트의 배열값을 filter로 반복돌면서 현재 반복도는 순번값과 ,index파라미터로 전달된 삭제할 순번이 같지 않은 글만 반환
+		const newPosts = Posts.filter((_, idx) => idx !== index); //index : 삭제할 순번
+		//console.log(newPosts);
+		//삭제순번의 글이 제외되어 반환된 데이터로 다시 state변경
+		//해당 setPosts시 전개연산자(..블라블라)를 쓰지 않는 이유는 filter메서드 자체가 새로운배열을 이미 deepCopy해서 반환하기 때문
+		setPosts(newPosts);
+	};
+
 	useEffect(() => {
 		console.log(Posts);
 	}, [Posts]);
@@ -43,6 +53,12 @@ function Community() {
 						<article key={idx}>
 							<h2>{post.title}</h2>
 							<p>{post.content}</p>
+
+							<div className='btnSet'>
+								<button>EDIT</button>
+								{/* 각 게시글 목록을 생성할때 삭제버튼까지 같이 생성, 삭제버튼 클릭시 삭제하려고 하는 해당 순번을 인수로 전달 */}
+								<button onClick={() => deletePost(idx)}>DELETE</button>
+							</div>
 						</article>
 					);
 				})}

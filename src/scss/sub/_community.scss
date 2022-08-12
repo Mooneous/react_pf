@@ -1,0 +1,10 @@
+.showBox {
+	article:nth-of-type(2n) {
+		background-color: gold;
+		margin: 10px 0;
+	}
+	article:nth-of-type(2n + 1) {
+		background-color: pink;
+		margin: 10px 0;
+	}
+}
