@@ -9,6 +9,7 @@ function Members() {
 		pwd2: '',
 		gender: null,
 		interests: null,
+		edu: '',
 	};
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState({});
@@ -46,10 +47,13 @@ function Members() {
 		if (!value.gender) {
 			errs.gender = '성별을 선택하세요';
 		}
-
 		//interests 인증처리
 		if (!value.interests) {
 			errs.interests = '관심사를 하나 이상 선택하세요';
+		}
+		//edu 인증처리
+		if (value.edu === '') {
+			errs.edu = '최종학력을 선택하세요';
 		}
 		return errs;
 	};
@@ -64,7 +68,7 @@ function Members() {
 		setVal({ ...Val, [name]: value });
 	};
 
-	//radio 인풋 전용 함수
+	//radio인풋 전용 함수
 	const handleRadio = (e) => {
 		const { name } = e.target;
 		const isCheck = e.target.checked;
@@ -80,8 +84,13 @@ function Members() {
 		inputs.forEach((el) => {
 			if (el.checked) isCheck = true;
 		});
-
 		setVal({ ...Val, [name]: isCheck });
+	};
+
+	//select 전용 함수
+	const handleSelect = (e) => {
+		const { name, value } = e.target;
+		setVal({ ...Val, [name]: value });
 	};
 
 	useEffect(() => {
@@ -178,6 +187,7 @@ function Members() {
 									<span className='err'>{Err.gender}</span>
 								</td>
 							</tr>
+
 							{/* interests */}
 							<tr>
 								<th scope='row'>INTERESTS</th>
@@ -185,15 +195,32 @@ function Members() {
 									<label htmlFor='sports'>Sports</label>
 									<input type='checkbox' id='sports' name='interests' onChange={handleCheck} />
 
-									<label htmlFor='sports'>Music</label>
+									<label htmlFor='music'>Music</label>
 									<input type='checkbox' id='music' name='interests' onChange={handleCheck} />
 
-									<label htmlFor='sports'>Game</label>
+									<label htmlFor='game'>Game</label>
 									<input type='checkbox' id='game' name='interests' onChange={handleCheck} />
-
 									<span className='err'>{Err.interests}</span>
 								</td>
 							</tr>
+
+							{/* edu */}
+							<tr>
+								<th scope='row'>
+									<label htmlFor='edu'>EDUCATION</label>
+								</th>
+								<td>
+									<select name='edu' id='edu' onChange={handleSelect}>
+										<option value=''>최종 학력을 선택하세요</option>
+										<option value='elementary-school'>초등학교 졸업</option>
+										<option value='middle-school'>중학교 졸업</option>
+										<option value='high-school'>고등학교 졸업</option>
+										<option value='college'>대학교 졸업</option>
+									</select>
+									<span className='err'>{Err.edu}</span>
+								</td>
+							</tr>
+
 							{/* btnSet */}
 							<tr>
 								<th colSpan='2'>
