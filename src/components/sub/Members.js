@@ -1,7 +1,9 @@
 import Layout from '../common/Layout';
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function Members() {
+	const history = useHistory();
 	const initVal = {
 		userid: '',
 		email: '',
@@ -14,6 +16,8 @@ function Members() {
 	};
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState({});
+	//전송 버튼 클릭 유무를 담을 스테이트
+	const [Submit, setSubmit] = useState(false);
 
 	const check = (value) => {
 		const errs = {};
@@ -73,14 +77,12 @@ function Members() {
 		setVal({ ...Val, [name]: value });
 	};
 
-	//radio인풋 전용 함수
 	const handleRadio = (e) => {
 		const { name } = e.target;
 		const isCheck = e.target.checked;
 		setVal({ ...Val, [name]: isCheck });
 	};
 
-	//checkbox 인풋 전용 함수
 	const handleCheck = (e) => {
 		let isCheck = false;
 		const { name } = e.target;
@@ -92,14 +94,21 @@ function Members() {
 		setVal({ ...Val, [name]: isCheck });
 	};
 
-	//select 전용 함수
 	const handleSelect = (e) => {
 		const { name, value } = e.target;
 		setVal({ ...Val, [name]: value });
 	};
 
 	useEffect(() => {
-		console.log(Err);
+		//전송 클릭시 에러메세지를 가지고 값이 Err스테이트 객체에 하나도 없으면 인증통과
+		//Objec.keys(확인할 객체) : 특정 객체의 키값을 배열로 반환해주는 객체전용 내장함수
+		const len = Object.keys(Err).length;
+		//에러메세지가 하나도 없고 Submit버튼을 클릭시 두개 조건을 모두 만족해야지 인증성공처리
+		if (len === 0 && Submit) {
+			alert('회원가입이 완료되었습니다. 메인페이지로 이동합니다.');
+			//메인페이지로 강제 이동
+			history.push('/');
+		}
 	}, [Err]);
 
 	return (
@@ -225,6 +234,7 @@ function Members() {
 									<span className='err'>{Err.edu}</span>
 								</td>
 							</tr>
+
 							{/* comments */}
 							<tr>
 								<th scope='row'>
@@ -241,11 +251,12 @@ function Members() {
 									<span className='err'>{Err.comments}</span>
 								</td>
 							</tr>
+
 							{/* btnSet */}
 							<tr>
 								<th colSpan='2'>
 									<input type='reset' value='cancel' />
-									<input type='submit' value='submit' />
+									<input type='submit' value='submit' onClick={() => setSubmit(true)} />
 								</th>
 							</tr>
 						</tbody>
