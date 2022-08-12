@@ -40,7 +40,7 @@ function Members() {
 			errs.pwd1 = '비밀번호는 6글자 이상, 영문, 숫자, 특수문자를 모두 포함하세요';
 		}
 		//pwd2 인증처리
-		if (value.pwd1 !== value.pwd2) {
+		if (value.pwd1 !== value.pwd2 || !value.pwd2) {
 			errs.pwd2 = '두개의 비밀번호를 동일하게 입력하세요';
 		}
 		//gender 인증처리
