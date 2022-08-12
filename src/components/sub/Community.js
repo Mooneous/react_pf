@@ -8,10 +8,9 @@ function Community() {
 
 	//글저장 함수
 	const createPost = () => {
-		//글저장버튼 클릭해서 해당함수가 실행이 되면
-		//기존 배열인 Posts스테이트값을 deepCopy (불변성유지)
-		//복사가 된 빈 배열에 참조객체로부터 전달받은 제목과 본문을 객체리터럴형식으로 만들어서 스테이트를 변경
-		//빈배열에는 해당 게시글 정보로 만들어진 객체가 추가됨
+		if (!input.current.value.trim() || !textarea.current.value.trim()) {
+			return alert('제목과 본문을 모두 입력하세요');
+		}
 		setPosts([...Posts, { title: input.current.value, content: textarea.current.value }]);
 	};
 
