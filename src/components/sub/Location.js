@@ -51,6 +51,8 @@ function Location() {
 	});
 
 	useEffect(() => {
+		//Index스테이트가 변경될때마다 일단은 기존 map프레임안쪽의 기존 지도를 제거해서 초기화
+		container.current.innerHTML = '';
 		const map_instance = new kakao.maps.Map(container.current, option);
 		marker.setMap(map_instance);
 		setLocation(map_instance);
