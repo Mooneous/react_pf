@@ -14,6 +14,11 @@ function Members() {
 	const check = (value) => {
 		const errs = {};
 
+		//인증처리할 조건 정규표현식
+		const eng = /[a-zA-Z]/;
+		const num = /[0-9]/;
+		const spc = /[~!@#$%^&*()_+\]]/;
+
 		//userid 인증처리
 		if (value.userid.length < 5) {
 			errs.userid = '아이디를 5글자 이상 입력하세요';
@@ -22,7 +27,14 @@ function Members() {
 		if (value.email.length < 8 || !/@/.test(value.email)) {
 			errs.email = '이메일주소는 8글자 이상 @를 포함하세요';
 		}
-
+		//pwd1 인증처리
+		if (value.pwd1 < 6 || !eng.test(value.pwd1) || !num.test(value.pwd1) || !spc.test(value.pwd1)) {
+			errs.pwd1 = '비밀번호는 6글자 이상, 영문, 숫자, 특수문자를 모두 포함하세요';
+		}
+		//pwd2 인증처리
+		if (value.pwd1 !== value.pwd2) {
+			errs.pwd2 = '두개의 비밀번호를 동일하게 입력하세요';
+		}
 		return errs;
 	};
 
@@ -59,7 +71,7 @@ function Members() {
 										placeholder='아이디를 입력하세요'
 										name='userid'
 										id='userid'
-										value={Val.userid}
+										//value={Val.userid}
 										onChange={handleChange}
 									/>
 									<span className='err'>{Err.userid}</span>
@@ -76,10 +88,11 @@ function Members() {
 										type='password'
 										name='pwd1'
 										id='pwd1'
-										value={Val.pwd1}
+										//value={Val.pwd1}
 										placeholder='비밀번호를 입력하세요'
 										onChange={handleChange}
 									/>
+									<span className='err'>{Err.pwd1}</span>
 								</td>
 							</tr>
 							<tr>
@@ -91,10 +104,11 @@ function Members() {
 										type='password'
 										name='pwd2'
 										id='pwd2'
-										value={Val.pwd2}
+										//value={Val.pwd2}
 										placeholder='비밀번호를 재입력하세요'
 										onChange={handleChange}
 									/>
+									<span className='err'>{Err.pwd2}</span>
 								</td>
 							</tr>
 
@@ -108,7 +122,7 @@ function Members() {
 										type='text'
 										id='email'
 										name='email'
-										value={Val.email}
+										//value={Val.email}
 										placeholder='이메일 주소를 입력하세요'
 										onChange={handleChange}
 									/>
