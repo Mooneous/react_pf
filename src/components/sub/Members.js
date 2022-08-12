@@ -8,6 +8,7 @@ function Members() {
 		pwd1: '',
 		pwd2: '',
 		gender: null,
+		interests: null,
 	};
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState({});
@@ -45,6 +46,11 @@ function Members() {
 		if (!value.gender) {
 			errs.gender = '성별을 선택하세요';
 		}
+
+		//interests 인증처리
+		if (!value.interests) {
+			errs.interests = '관심사를 하나 이상 선택하세요';
+		}
 		return errs;
 	};
 
@@ -58,10 +64,23 @@ function Members() {
 		setVal({ ...Val, [name]: value });
 	};
 
-	//radio버튼 인풋 전용 함수
+	//radio 인풋 전용 함수
 	const handleRadio = (e) => {
 		const { name } = e.target;
 		const isCheck = e.target.checked;
+		setVal({ ...Val, [name]: isCheck });
+	};
+
+	//checkbox 인풋 전용 함수
+	const handleCheck = (e) => {
+		let isCheck = false;
+		const { name } = e.target;
+		const inputs = e.target.parentElement.querySelectorAll('input');
+
+		inputs.forEach((el) => {
+			if (el.checked) isCheck = true;
+		});
+
 		setVal({ ...Val, [name]: isCheck });
 	};
 
@@ -159,7 +178,22 @@ function Members() {
 									<span className='err'>{Err.gender}</span>
 								</td>
 							</tr>
+							{/* interests */}
+							<tr>
+								<th scope='row'>INTERESTS</th>
+								<td>
+									<label htmlFor='sports'>Sports</label>
+									<input type='checkbox' id='sports' name='interests' onChange={handleCheck} />
 
+									<label htmlFor='sports'>Music</label>
+									<input type='checkbox' id='music' name='interests' onChange={handleCheck} />
+
+									<label htmlFor='sports'>Game</label>
+									<input type='checkbox' id='game' name='interests' onChange={handleCheck} />
+
+									<span className='err'>{Err.interests}</span>
+								</td>
+							</tr>
 							{/* btnSet */}
 							<tr>
 								<th colSpan='2'>
