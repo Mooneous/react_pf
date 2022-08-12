@@ -1,5 +1,5 @@
 import Layout from '../common/Layout';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 function Community() {
 	const input = useRef(null);
@@ -8,9 +8,12 @@ function Community() {
 
 	//글저장 함수
 	const createPost = () => {
-		console.log('title', input.current.value);
-		console.log('content', textarea.current.value);
+		setPosts([...Posts, { title: input.current.value, content: textarea.current.value }]);
 	};
+
+	useEffect(() => {
+		console.log(Posts);
+	}, [Posts]);
 
 	return (
 		<Layout name={'Community'}>
@@ -21,6 +24,17 @@ function Community() {
 				<br />
 				<button>CANCEL</button>
 				<button onClick={createPost}>WRITE</button>
+
+				<div className='showBox'>
+					{Posts.map((post, idx) => {
+						return (
+							<article key={idx}>
+								<h2>{post.title}</h2>
+								<p>{post.content}</p>
+							</article>
+						);
+					})}
+				</div>
 			</div>
 		</Layout>
 	);
