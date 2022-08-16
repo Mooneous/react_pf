@@ -11,7 +11,7 @@ function Visual() {
 	const box = useRef(null);
 
 	return (
-		<figure id='visual'>
+		<figure id='visual' className='myScroll'>
 			<button
 				style={btnStyle}
 				onClick={() => {
