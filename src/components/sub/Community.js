@@ -32,6 +32,7 @@ function Community() {
 				return post;
 			})
 		);
+		setAllowed(true);
 	};
 
 	//글저장 함수
