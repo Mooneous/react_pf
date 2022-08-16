@@ -1,10 +1,76 @@
-.showBox {
-	article:nth-of-type(2n) {
-		background-color: gold;
-		margin: 10px 0;
-	}
-	article:nth-of-type(2n + 1) {
-		background-color: pink;
-		margin: 10px 0;
+.Community {
+	> .inner {
+		.inputBox {
+			width: 100%;
+			border: 1px solid #ddd;
+			padding: 50px;
+			margin-bottom: 50px;
+
+			input[type='text'],
+			textarea {
+				width: 50%;
+				padding: 8px 10px;
+				border: 1px solid #aaa;
+				margin-bottom: 20px;
+				resize: none;
+			}
+
+			.btnSet {
+				width: 50%;
+				display: flex;
+				justify-content: space-between;
+
+				button {
+					width: 150px;
+					height: 30px;
+					display: inline-block;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border: none;
+					background: #555;
+					color: #fff;
+					cursor: pointer;
+					margin-right: 20px;
+				}
+			}
+		}
+
+		.showBox {
+			width: 100%;
+			border: 1px solid #bbb;
+			padding: 50px;
+
+			article {
+				width: 100%;
+				background: #fff;
+				padding: 30px;
+				margin-bottom: 40px;
+				display: flex;
+				justify-content: space-between;
+				flex-wrap: wrap;
+				align-content: center;
+
+				.btnSet {
+					display: center;
+					align-items: center;
+
+					button {
+						background: transparent;
+						margin: 10px;
+						cursor: pointer;
+						border: none;
+
+						&:nth-of-type(1) {
+							color: orange;
+						}
+
+						&:nth-of-type(2) {
+							color: orangered;
+						}
+					}
+				}
+			}
+		}
 	}
 }
