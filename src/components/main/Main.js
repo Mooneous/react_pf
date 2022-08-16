@@ -5,7 +5,8 @@ import Pics from './Pics';
 import Vids from './Vids';
 import Btns from './Btns';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import Anime from '../../assets/Anime';
 
 function Main() {
 	//브라우저 리사이즈시 메인 컴포넌트 호출이 되는지안되는지 알아보려고~
@@ -13,6 +14,7 @@ function Main() {
 
 	const main = useRef(null);
 	const pos = useRef([]);
+	const [Index, setIndex] = useState(0);
 
 	const getPos = () => {
 		pos.current = []; //리사이즈시마다 위치값(pos) 추가되고있으므로 빈배열 만들어 초기화한 다음 담기
@@ -30,6 +32,15 @@ function Main() {
 		};
 	}, []);
 
+	useEffect(() => {
+		//console.log(Index);
+		new Anime(window, {
+			prop: 'scroll',
+			value: pos.current[Index],
+			duration: 500,
+		});
+	}, [Index]);
+
 	return (
 		<main ref={main}>
 			<Header type={'main'} />
@@ -37,7 +48,8 @@ function Main() {
 			<News />
 			<Pics />
 			<Vids />
-			<Btns />
+			<Btns setIndex={setIndex} />
+			{/*setIndex라는 state함수를 setIndex라는 props 이름으로 전달*/}
 		</main>
 	);
 }
