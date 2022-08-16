@@ -41,6 +41,16 @@ function Community() {
 		);
 	};
 
+	//글 출력모드 변경함수
+	const disableUpdate = (index) => {
+		setPosts(
+			Posts.map((post, idx) => {
+				if (idx === index) post.enableUpdate = false;
+				return post;
+			})
+		);
+	};
+
 	useEffect(() => {
 		console.log(Posts);
 	}, [Posts]);
@@ -78,7 +88,7 @@ function Community() {
 										<br />
 									</div>
 									<div className='btnSet'>
-										<button>CANCEL</button>
+										<button onClick={() => disableUpdate(idx)}>CANCEL</button>
 										<button>UPDATE</button>
 									</div>
 								</>
