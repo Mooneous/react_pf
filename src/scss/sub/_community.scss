@@ -51,6 +51,20 @@
 				flex-wrap: wrap;
 				align-content: center;
 
+				.editTxt {
+					width: 60%;
+					input[type='text'],
+					textarea {
+						width: 100%;
+						padding: 8px 10px;
+						border: 1px solid lightblue;
+						margin-bottom: 20px;
+						background: #effbff;
+						resize: none;
+						color: cornflowerblue;
+					}
+				}
+
 				.btnSet {
 					display: center;
 					align-items: center;
