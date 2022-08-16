@@ -16,6 +16,7 @@ function Main() {
 	const pos = useRef([]);
 	const [Index, setIndex] = useState(0);
 
+	//섹션의 세로 위치값을 구하는 함수
 	const getPos = () => {
 		pos.current = []; //리사이즈시마다 위치값(pos) 추가되고있으므로 빈배열 만들어 초기화한 다음 담기
 		const secs = main.current.querySelectorAll('.myScroll');
@@ -24,11 +25,31 @@ function Main() {
 		console.log(pos.current);
 	};
 
+	//스크롤 위치에 따라서 버튼 활성화 함수
+	const activation = () => {
+		const scroll = window.scrollY;
+		const btns = main.current.querySelectorAll('.scroll_navi li');
+
+		//pos.current에 등록된 각 섹션의 세로 위치값을 반복
+		pos.current.map((pos, idx) => {
+			//현재 스크롤된 거리값이 각 섹션의 위치값보다 같거나 크면
+			//기존 버튼 모두 비활성화시키고 해당 순번의 버튼만 활성화
+			if (scroll >= pos) {
+				for (const btn of btns) btn.classList.remove('on');
+				btns[idx].classList.add('on');
+			}
+		});
+	};
+
 	useEffect(() => {
-		getPos();
+		getPos(); //마운트될때
 		window.addEventListener('resize', getPos);
+		window.addEventListener('scroll', activation);
+
 		return () => {
+			//언마운트될때
 			window.removeEventListener('resize', getPos);
+			window.removeEventListener('scroll', activation);
 		};
 	}, []);
 
