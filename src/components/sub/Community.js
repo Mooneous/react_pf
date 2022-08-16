@@ -9,8 +9,19 @@ function Community() {
 
 	//로컬스토리지에 있는 데이터를 가져와서 다시 JSON객체로 parsing해서 리턴하는 함수
 	const getLocalData = () => {
+		const dummyPosts = [
+			{ title: 'Hello5', content: 'Here comes description in detail.' },
+			{ title: 'Hello4', content: 'Here comes description in detail.' },
+			{ title: 'Hello3', content: 'Here comes description in detail.' },
+			{ title: 'Hello2', content: 'Here comes description in detail.' },
+			{ title: 'Hello1', content: 'Here comes description in detail.' },
+		];
 		const data = localStorage.getItem('post');
-		return JSON.parse(data);
+		if (data) {
+			return JSON.parse(data);
+		} else {
+			return dummyPosts;
+		}
 	};
 
 	//초기 Posts 스테이트에 로컬스토리지의 데이터를 가져와서 저장
@@ -21,6 +32,25 @@ function Community() {
 	const resetForm = () => {
 		input.current.value = '';
 		textarea.current.value = '';
+	};
+
+	//글저장 함수
+	const createPost = () => {
+		if (!input.current.value.trim() || !textarea.current.value.trim()) {
+			return alert('제목과 본문을 모두 입력하세요');
+		}
+		setPosts([{ title: input.current.value, content: textarea.current.value }, ...Posts]);
+		resetForm();
+	};
+
+	//글삭제 함수
+	const deletePost = (index) => {
+		//기존 Posts스테이트의 배열값을 filter로 반복돌면서 현재 반복도는 순번값과 ,index파라미터로 전달된 삭제할 순번이 같지 않은 글만 반환
+		const newPosts = Posts.filter((_, idx) => idx !== index); //index : 삭제할 순번
+		//console.log(newPosts);
+		//삭제순번의 글이 제외되어 반환된 데이터로 다시 state변경
+		//해당 setPosts시 전개연산자(..블라블라)를 쓰지 않는 이유는 filter메서드 자체가 새로운배열을 이미 deepCopy해서 반환하기 때문
+		setPosts(newPosts);
 	};
 
 	//실제 글 수정 함수
@@ -41,25 +71,6 @@ function Community() {
 			})
 		);
 		setAllowed(true);
-	};
-
-	//글저장 함수
-	const createPost = () => {
-		if (!input.current.value.trim() || !textarea.current.value.trim()) {
-			return alert('제목과 본문을 모두 입력하세요');
-		}
-		setPosts([...Posts, { title: input.current.value, content: textarea.current.value }]);
-		resetForm();
-	};
-
-	//글삭제 함수
-	const deletePost = (index) => {
-		//기존 Posts스테이트의 배열값을 filter로 반복돌면서 현재 반복도는 순번값과 ,index파라미터로 전달된 삭제할 순번이 같지 않은 글만 반환
-		const newPosts = Posts.filter((_, idx) => idx !== index); //index : 삭제할 순번
-		//console.log(newPosts);
-		//삭제순번의 글이 제외되어 반환된 데이터로 다시 state변경
-		//해당 setPosts시 전개연산자(..블라블라)를 쓰지 않는 이유는 filter메서드 자체가 새로운배열을 이미 deepCopy해서 반환하기 때문
-		setPosts(newPosts);
 	};
 
 	//글 수정모드 변경함수
@@ -88,7 +99,7 @@ function Community() {
 	//Posts값이 변경될떄마다 로컬 스토리지에 기존 데이터를 다시 문자열로 변환해서 저장
 	useEffect(() => {
 		localStorage.setItem('post', JSON.stringify(Posts));
-		console.log(Posts);
+		//console.log(Posts);
 	}, [Posts]);
 
 	return (
