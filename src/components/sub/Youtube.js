@@ -13,9 +13,9 @@ function Youtube() {
 	const [Index, setIndex] = useState(0);
 
 	useEffect(() => {
-		const key = 'AIzaSyB5JZfJTpMHm2WfEEIid2Dt443MfKM9XAU';
-		const playlist = 'PL0niq1d_d9TP1sXECKOKrBpMhjbkfrjsE';
-		const num = 3;
+		const key = 'AIzaSyCMfwz2923Ts1sPkx0J7I0mnMHPmYKw4vo';
+		const playlist = 'PLHtvRFLN5v-VD95TBpr5Dh2zguWCjjmMG';
+		const num = 6;
 		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlist}&maxResults=${num}`;
 		axios.get(url).then((json) => {
 			console.log(json.data.items);
@@ -36,20 +36,14 @@ function Youtube() {
 						<div className='txt'>
 							<p>
 								{vid.snippet.description.length > 200
-									? vid.snippet.description.substr(0, 200) +
-									  '...'
+									? vid.snippet.description.substr(0, 200) + '...'
 									: vid.snippet.description}
 							</p>
-							<span>
-								{vid.snippet.publishedAt.split('T')[0]}
-							</span>
+							<span>{vid.snippet.publishedAt.split('T')[0]}</span>
 						</div>
 
 						<div className='pic'>
-							<img
-								src={vid.snippet.thumbnails.standard.url}
-								alt={vid.title}
-							/>
+							<img src={vid.snippet.thumbnails.standard.url} alt={vid.title} />
 							<FontAwesomeIcon
 								icon={faYoutube}
 								useRef={line}

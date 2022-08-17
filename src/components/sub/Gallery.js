@@ -1,5 +1,5 @@
 import Layout from '../common/Layout';
-import Popup from '../common/Pop';
+import Pop from '../common/Pop';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -45,12 +45,12 @@ function Gallery() {
 			</Layout>
 
 			{Open && (
-				<Popup setOpen={setOpen}>
+				<Pop setOpen={setOpen}>
 					<img
 						src={`https://live.staticflickr.com/${Items[Index].server}/${Items[Index].id}_${Items[Index].secret}_b.jpg`}
 						alt={Items[Index].title}
 					/>
-				</Popup>
+				</Pop>
 			)}
 		</>
 	);
