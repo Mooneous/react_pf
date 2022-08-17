@@ -1,7 +1,7 @@
 import Anime from '../../assets/Anime';
 import { useEffect, useRef } from 'react';
 
-function Btns() {
+function Btns({ setScrolled, setPos }) {
 	const pos = useRef([]);
 	const btnRef = useRef(null);
 	const speed = 500;
@@ -12,6 +12,7 @@ function Btns() {
 		pos.current = [];
 		const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
 		for (const sec of secs) pos.current.push(sec.offsetTop);
+		setPos(pos.current);
 	};
 
 	//스크롤시 버튼 활성화 함수
@@ -20,6 +21,8 @@ function Btns() {
 		const scroll = window.scrollY;
 		const btns = btnRef.current.children;
 		const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
+
+		setScrolled(scroll);
 
 		pos.current.map((pos, idx) => {
 			if (scroll >= pos + base) {
