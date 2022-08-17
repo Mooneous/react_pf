@@ -1,7 +1,7 @@
 #vids {
 	width: 100%;
 	height: 100vh;
-	padding: 10vw;
+	padding: 10vw 0;
 	background: lightblue;
 
 	.swiper {
@@ -9,12 +9,27 @@
 
 		.swiper-slide {
 			width: 100%;
-			background: #333;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			font: bold 50px/1 'arial';
-			color: #fff;
+
+			.inner {
+				width: 100%;
+				height: 100%;
+				background: #fff;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				color: #333;
+				font: bold 50px/1 'arial';
+				transform: scale(0.8);
+				opacity: 0.5;
+				transition: opacity 0.5s, transforn 0.5s;
+			}
+		}
+		//활성화 패널 스타일
+		.swiper-slide-active {
+			.inner {
+				transform: scale(1);
+				opacity: 1;
+			}
 		}
 	}
 }
