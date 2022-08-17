@@ -71,7 +71,7 @@ function Main() {
 			<News />
 			<Pics />
 			<Vids />
-			<Btns setIndex={setIndex} Scrolled={Scrolled} pos={pos.current} Index={Index} />
+			<Btns Index={Index} setIndex={setIndex} Scrolled={Scrolled} pos={pos.current} />
 			{/*setIndex라는 state함수를 setIndex라는 props 이름으로 전달*/}
 		</main>
 	);
