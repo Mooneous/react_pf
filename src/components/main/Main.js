@@ -15,6 +15,7 @@ function Main() {
 	const main = useRef(null);
 	const pos = useRef([]);
 	const [Index, setIndex] = useState(0);
+	const [Scrolled, setScrolled] = useState(0);
 
 	//섹션의 세로 위치값을 구하는 함수
 	const getPos = () => {
@@ -29,6 +30,7 @@ function Main() {
 	const activation = () => {
 		const scroll = window.scrollY;
 		const btns = main.current.querySelectorAll('.scroll_navi li');
+		setScrolled(scroll);
 
 		//pos.current에 등록된 각 섹션의 세로 위치값을 반복
 		pos.current.map((pos, idx) => {
@@ -54,7 +56,7 @@ function Main() {
 	}, []);
 
 	useEffect(() => {
-		//console.log(Index);
+		console.log(Index);
 		new Anime(window, {
 			prop: 'scroll',
 			value: pos.current[Index],
@@ -69,7 +71,7 @@ function Main() {
 			<News />
 			<Pics />
 			<Vids />
-			<Btns setIndex={setIndex} />
+			<Btns setIndex={setIndex} Scrolled={Scrolled} pos={pos.current} Index={Index} />
 			{/*setIndex라는 state함수를 setIndex라는 props 이름으로 전달*/}
 		</main>
 	);
