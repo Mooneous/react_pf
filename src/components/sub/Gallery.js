@@ -23,7 +23,7 @@ function Gallery() {
 	return (
 		<>
 			<Layout name={'Gallery'}>
-				<div className='frame'>
+				<div className='frame on'>
 					{Items.map((pic, idx) => {
 						return (
 							<article
