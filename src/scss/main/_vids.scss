@@ -57,7 +57,7 @@
 			left: auto;
 			right: 50px;
 			transform: scale(0.6);
-			filter: grayscale(1) brightness(3);
+			filter: grayscale(1) brightness(3); //파란색->흰색으로
 			z-index: 11;
 		}
 		.swiper-button-prev {
