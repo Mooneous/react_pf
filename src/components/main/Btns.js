@@ -5,6 +5,7 @@ function Btns() {
 	const pos = useRef([]);
 	const btnRef = useRef(null);
 	const speed = 500;
+	const num = 4;
 
 	//세로 스크롤 위치값 구하는 함수
 	const getPos = () => {
@@ -28,6 +29,8 @@ function Btns() {
 
 	//윈도우객체에 리사이즈, 스크롤 이벤트 연결
 	useEffect(() => {
+		btnRef.current.children[0].classList.add('on');
+
 		getPos();
 		window.addEventListener('resize', getPos);
 		window.addEventListener('scroll', activation);
@@ -39,7 +42,7 @@ function Btns() {
 
 	return (
 		<ul className='scroll_navi' ref={btnRef}>
-			{Array(4)
+			{Array(num)
 				.fill()
 				.map((_, idx) => {
 					return (
