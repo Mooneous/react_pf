@@ -18,6 +18,13 @@ function Pics({ Scrolled, currentPos }) {
 				}}>
 				GALLERY
 			</h2>
+
+			<div
+				className='box'
+				style={{
+					transform: `scale(${1 + position / 1000})`,
+					opacity: 1 - position / 1000,
+				}}></div>
 		</section>
 	);
 }
