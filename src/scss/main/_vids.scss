@@ -3,4 +3,18 @@
 	height: 100vh;
 	padding: 10vw;
 	background: lightblue;
+
+	.swiper {
+		height: 100%;
+
+		.swiper-slide {
+			width: 100%;
+			background: #333;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font: bold 50px/1 'arial';
+			color: #fff;
+		}
+	}
 }
