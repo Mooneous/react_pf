@@ -11,6 +11,7 @@ function Gallery() {
 	const [Index, setIndex] = useState(0);
 	const [Open, setOpen] = useState(false);
 	const [Loading, setLoading] = useState(true);
+	const [EnableClick, setEnableClick] = useState(false);
 	//masonry 전환속도 옵션객체 설정
 	const masonryOptions = { transitionDuration: '0.5s' };
 
@@ -32,6 +33,7 @@ function Gallery() {
 		setTimeout(() => {
 			frame.current.classList.add('on');
 			setLoading(false);
+			setEnableClick(true);
 		}, 1000);
 	};
 
@@ -42,18 +44,22 @@ function Gallery() {
 			<Layout name={'Gallery'}>
 				<button
 					onClick={() => {
+						if (!EnableClick) return;
 						setLoading(true);
 						frame.current.classList.remove('on');
 						getFlickr(url_user);
+						setEnableClick(false);
 					}}>
 					My Gallery
 				</button>
 
 				<button
 					onClick={() => {
+						if (!EnableClick) return;
 						setLoading(true);
 						frame.current.classList.remove('on');
 						getFlickr(url_interest);
+						setEnableClick(false);
 					}}>
 					Interest Gallery
 				</button>
