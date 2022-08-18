@@ -7,6 +7,7 @@ import { useEffect, useState, useRef } from 'react';
 
 function Gallery() {
 	const frame = useRef(null);
+	const input = useRef(null);
 	const [Items, setItems] = useState([]);
 	const [Index, setIndex] = useState(0);
 	const [Open, setOpen] = useState(false);
@@ -14,7 +15,7 @@ function Gallery() {
 	const [EnableClick, setEnableClick] = useState(false);
 	//masonry 전환속도 옵션객체 설정
 	const masonryOptions = { transitionDuration: '0.5s' };
-	const num = 500;
+	const num = 50;
 	const user = '164021883@N04';
 
 	const getFlickr = async (opt) => {
@@ -74,6 +75,23 @@ function Gallery() {
 					}}>
 					Interest Gallery
 				</button>
+
+				<div className='searchBox'>
+					<input type='text' ref={input} />
+					<button
+						onClick={() => {
+							const result = input.current.value.trim();
+							if (!result) return alert('검색어를 입력하세요');
+							if (!EnableClick) return;
+							setEnableClick(false);
+							setLoading(true);
+							frame.current.classList.remove('on');
+							getFlickr({ type: 'search', tag: result });
+							input.current.value = '';
+						}}>
+						search
+					</button>
+				</div>
 
 				{Loading && <img className='loading' src={process.env.PUBLIC_URL + '/img/loading.gif'} />}
 
