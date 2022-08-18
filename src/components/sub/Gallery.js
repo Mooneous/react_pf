@@ -29,7 +29,7 @@ function Gallery() {
 			url = `https://www.flickr.com/services/rest/?method=${method_interest}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1}`;
 		}
 		if (opt.type === 'user') {
-			url = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1&user_id=${user}`;
+			url = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1&user_id=${opt.user}`;
 		}
 		if (opt.type === 'search') {
 			url = `https://www.flickr.com/services/rest/?method=${method_search}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1&tags=${opt.tag}`;
@@ -71,11 +71,11 @@ function Gallery() {
 	};
 
 	//user요청 함수
-	const showUser = () => {
+	const showUser = (e) => {
 		if (!EnableClick) return;
 		setLoading(true);
 		frame.current.classList.remove('on');
-		getFlickr({ type: 'user', user: user });
+		getFlickr({ type: 'user', user: e.target.getAttribute('user') });
 		setEnableClick(false);
 	};
 
@@ -85,7 +85,9 @@ function Gallery() {
 	return (
 		<>
 			<Layout name={'Gallery'}>
-				<button onClick={showUser}>My Gallery</button>
+				<button user={user} onClick={showUser}>
+					My Gallery
+				</button>
 				<button onClick={showInterest}>Interest Gallery</button>
 
 				<div className='searchBox'>
@@ -106,14 +108,14 @@ function Gallery() {
 					<Masonry elementType={'div'} options={masonryOptions}>
 						{Items.map((pic, idx) => {
 							return (
-								<article
-									key={idx}
-									onClick={() => {
-										setIndex(idx);
-										setOpen(true);
-									}}>
+								<article key={idx}>
 									<div className='inner'>
-										<div className='pic'>
+										<div
+											className='pic'
+											onClick={() => {
+												setIndex(idx);
+												setOpen(true);
+											}}>
 											<img
 												src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`}
 												alt={pic.title}
@@ -132,7 +134,9 @@ function Gallery() {
 													);
 												}}
 											/>
-											<span>{pic.owner}</span>
+											<span user={pic.owner} onClick={showUser}>
+												{pic.owner}
+											</span>
 										</div>
 									</div>
 								</article>
