@@ -7,21 +7,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 function Youtube() {
-	const line = useRef(null);
+	const pop = useRef(null);
 	const [Vids, setVids] = useState([]);
-	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
 
-	useEffect(() => {
+	const getYoutube = async () => {
 		const key = 'AIzaSyCMfwz2923Ts1sPkx0J7I0mnMHPmYKw4vo';
 		const playlist = 'PLHtvRFLN5v-VD95TBpr5Dh2zguWCjjmMG';
 		const num = 6;
 		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlist}&maxResults=${num}`;
-		axios.get(url).then((json) => {
+		await axios.get(url).then((json) => {
 			console.log(json.data.items);
 			setVids(json.data.items);
 		});
-	}, []);
+	};
+
+	useEffect(getYoutube, []);
 
 	return (
 		<>
@@ -46,10 +47,9 @@ function Youtube() {
 							<img src={vid.snippet.thumbnails.standard.url} alt={vid.title} />
 							<FontAwesomeIcon
 								icon={faYoutube}
-								useRef={line}
 								onClick={() => {
-									setOpen(true);
 									setIndex(idx);
+									pop.current.open();
 								}}
 							/>
 						</div>
@@ -57,13 +57,13 @@ function Youtube() {
 				))}
 			</Layout>
 
-			{Open && (
-				<Pop setOpen={setOpen}>
+			<Pop ref={pop}>
+				{Vids.length !== 0 && (
 					<iframe
 						src={`https://www.youtube.com/embed/${Vids[Index].snippet.resourceId.videoId}`}
 						frameBorder='0'></iframe>
-				</Pop>
-			)}
+				)}
+			</Pop>
 		</>
 	);
 }
