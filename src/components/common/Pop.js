@@ -1,4 +1,5 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 //부모요소에서 해당 컴포넌트를 참조할 수 있도록 forwardRef의 인수값으로 자기자신함수를 그대로 전달
 const Pop = forwardRef(({ children }, ref) => {
@@ -16,15 +17,21 @@ const Pop = forwardRef(({ children }, ref) => {
 
 	return (
 		<>
-			{/* Open 스테이트값이 true일때만 내부 컨텐츠 출력 */}
-			{Open && (
-				<aside className='pop'>
-					<div className='con'>{children}</div>
-					<span className='close' onClick={() => setOpen(false)}>
-						close
-					</span>
-				</aside>
-			)}
+			<AnimatePresence>
+				{/* Open 스테이트값이 true일때만 내부 컨텐츠 출력 */}
+				{Open && (
+					<motion.aside
+						className='pop'
+						initial={{ opacity: 0, scale: 0 }}
+						animate={{ opacity: 1, scale: 1, transition: { duration: 0.5 } }}
+						exit={{ opacity: 0, scale: 0, transition: { duration: 0.5 } }}>
+						<div className='con'>{children}</div>
+						<span className='close' onClick={() => setOpen(false)}>
+							close
+						</span>
+					</motion.aside>
+				)}
+			</AnimatePresence>
 		</>
 	);
 });
