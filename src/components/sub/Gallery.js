@@ -14,16 +14,25 @@ function Gallery() {
 	const [EnableClick, setEnableClick] = useState(false);
 	//masonry 전환속도 옵션객체 설정
 	const masonryOptions = { transitionDuration: '0.5s' };
-
-	const key = '4612601b324a2fe5a1f5f7402bf8d87a';
-	const method_interest = 'flickr.interestingness.getList';
-	const method_user = 'flickr.people.getPhotos';
 	const num = 500;
 	const user = '164021883@N04';
-	const url_interest = `https://www.flickr.com/services/rest/?method=${method_interest}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1}`;
-	const url_user = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1&user_id=${user}`;
 
-	const getFlickr = async (url) => {
+	const getFlickr = async (opt) => {
+		const key = '4612601b324a2fe5a1f5f7402bf8d87a';
+		const method_interest = 'flickr.interestingness.getList';
+		const method_user = 'flickr.people.getPhotos';
+		const method_search = 'flickr.photos.search';
+		let url = '';
+		//객체로 전달되는 type에 따라 호출한 URL을 새로 만들고 axios에 전달
+		if (opt.type === 'interest')
+			url = `https://www.flickr.com/services/rest/?method=${method_interest}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1}`;
+		if (opt.type === 'user')
+			url = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1&user_id=${user}`;
+		if (opt.type === 'search')
+			url = `https://www.flickr.com/services/rest/?method=${method_search}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1&tags=${opt.tag}`;
+
+		const url_user = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&format=json&nojsoncallback=1&user_id=${user}`;
+
 		await axios.get(url).then((json) => {
 			console.log(json.data.photos.photo);
 			setItems(json.data.photos.photo);
@@ -37,7 +46,8 @@ function Gallery() {
 		}, 1000);
 	};
 
-	useEffect(() => getFlickr(url_interest), []);
+	//처음  호출시에는 interest방식으로 호출
+	useEffect(() => getFlickr({ type: 'interest' }), []);
 
 	return (
 		<>
@@ -47,7 +57,8 @@ function Gallery() {
 						if (!EnableClick) return;
 						setLoading(true);
 						frame.current.classList.remove('on');
-						getFlickr(url_user);
+						//user 갤러리 호출시에는 추가로 user키값에 검색하고자 하는 유저아이디 전달
+						getFlickr({ type: 'user', user: user });
 						setEnableClick(false);
 					}}>
 					My Gallery
@@ -58,7 +69,7 @@ function Gallery() {
 						if (!EnableClick) return;
 						setLoading(true);
 						frame.current.classList.remove('on');
-						getFlickr(url_interest);
+						getFlickr({ type: 'interest' });
 						setEnableClick(false);
 					}}>
 					Interest Gallery
