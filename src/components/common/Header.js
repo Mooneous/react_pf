@@ -5,22 +5,18 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import Menu from './Menu';
 
 function Header({ type }) {
 	const active = { color: '#000' };
 	let logoURL = '';
-	type === 'main'
-		? (logoURL = '/img/logo_w.png')
-		: (logoURL = '/img/logo_b.png');
+	type === 'main' ? (logoURL = '/img/logo_w.png') : (logoURL = '/img/logo_b.png');
 
 	return (
 		<header className={type}>
 			<h1>
 				<Link to='/'>
-					<img
-						src={process.env.PUBLIC_URL + logoURL}
-						alt='logo'
-					/>
+					<img src={process.env.PUBLIC_URL + logoURL} alt='logo' />
 				</Link>
 				<span>Lorem ipsum dolor sit amet.</span>
 			</h1>
@@ -73,6 +69,8 @@ function Header({ type }) {
 			</nav>
 
 			<FontAwesomeIcon icon={faBars} />
+
+			<Menu />
 		</header>
 	);
 }
