@@ -1,6 +1,7 @@
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { NavLink, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Menu = forwardRef((props, ref) => {
 	const [Open, setOpen] = useState(false);
@@ -11,6 +12,13 @@ const Menu = forwardRef((props, ref) => {
 			toggle: () => setOpen(!Open),
 		};
 	});
+
+	useEffect(() => {
+		window.addEventListener('resize', () => {
+			const wid = window.innerWidth;
+			if (wid >= 1280) setOpen(false);
+		});
+	}, []);
 
 	return (
 		<AnimatePresence>
