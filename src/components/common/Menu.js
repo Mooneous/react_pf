@@ -15,7 +15,7 @@ const Menu = forwardRef((props, ref) => {
 	return (
 		<AnimatePresence>
 			{Open && (
-				<nav id='mobileGnb'>
+				<nav id='mobileGnb' onClick={() => setOpen(!Open)}>
 					<h1>
 						<Link to='/'>
 							<img src={process.env.PUBLIC_URL + '/img/logo_w.png'} alt='logo' />
