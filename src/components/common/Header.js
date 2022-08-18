@@ -21,7 +21,7 @@ function Header({ type }) {
 				<span>Lorem ipsum dolor sit amet.</span>
 			</h1>
 
-			<nav>
+			<nav id='webGnb'>
 				<ul id='gnb'>
 					<li>
 						<NavLink to='/department' activeStyle={active}>
