@@ -1,5 +1,8 @@
 import { Route, Switch } from 'react-router-dom';
-
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setYoutube } from './redux/action';
+import axios from 'axios';
 //common
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
@@ -18,6 +21,23 @@ import Members from './components/sub/Members';
 import './scss/style.scss';
 
 function App() {
+	const dispatch = useDispatch();
+
+	const getYoutube = async () => {
+		const key = 'AIzaSyCMfwz2923Ts1sPkx0J7I0mnMHPmYKw4vo';
+		const playlist = 'PLHtvRFLN5v-VD95TBpr5Dh2zguWCjjmMG';
+		const num = 6;
+		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlist}&maxResults=${num}`;
+		await axios.get(url).then((json) => {
+			console.log(json.data.items);
+			dispatch(setYoutube(json.data.items));
+		});
+	};
+
+	useEffect(() => {
+		getYoutube();
+	}, []);
+
 	return (
 		<>
 			{/* 중복되는 라우터명이 있을때 처음 연결된 라우터 하나만 연결 */}
