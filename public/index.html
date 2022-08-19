@@ -10,7 +10,7 @@
   <style>
     .defaults {
       position: absolute;
-      top: -99999px;
+      top: -999999px;
     }
 
     .mask {
@@ -34,32 +34,30 @@
       opacity: 0;
     }
   </style>
-
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
   <div class="defaults"></div>
-  <div class="mask">Loading...</div>
+  <div class="mask">LOADING...</div>
 
   <script>
     const defaults = document.querySelector('.defaults');
     const mask = document.querySelector('.mask');
     let tags = '';
-    const baseURL = 'http://Mooneous.github.io/react_pf';
+    const baseURL = 'http://mooneous.github.io/react_pf';
     const imgs = [
-      baseURL + 'img/Community.jpg',
-      baseURL + 'img/Department.jpg',
-      baseURL + 'img/Gallery.jpg',
-      baseURL + 'img/Youtube.jpg',
-      baseURL + 'img/Location.jpg',
-      baseURL + 'img/Members.jpg',
+      baseURL + '/img/Community.jpg',
+      baseURL + '/img/Department.jpg',
+      baseURL + '/img/Gallery.jpg',
+      baseURL + '/img/Location.jpg',
+      baseURL + '/img/Youtube.jpg',
+      baseURL + '/img/Members.jpg'
     ];
     const vids = [
       baseURL + '/img/vid.mp4'
     ];
-
     const lenImg = imgs.length;
     const lenVid = vids.length;
 
@@ -83,20 +81,19 @@
       }
     })
 
-    //DOM생성함수
+
+
+
     function createDOM() {
       imgs.forEach(src => {
-        tags += `<img src=${src}/>`
+        tags += `<img src=${src} />`
       })
       vids.forEach(src => {
-        tags += `<video src=${src}><video>`
+        tags += `<video src=${src}></video>`
       })
-      defaults.innerHML = tags;
+      defaults.innerHTML = tags;
     }
 
-
-    //이미지소스 로딩완료 겸사함수
-    //이미지소스가 모두 로딩완료시 프로미스객체로 true반환 함수
     function loadImg() {
       return new Promise((res, rej) => {
         let countImg = 0;
@@ -114,9 +111,6 @@
       })
     }
 
-
-
-    //영상소스가 모두 로딩완료되면 프로미스 객체로 true반환 함수
     function loadVid() {
       return new Promise((res, rej) => {
         let countVid = 0;
@@ -133,13 +127,10 @@
         })
       })
     }
-
   </script>
-
 </body>
 
 </html>
-
 <!-- 
   SSR VS CSR
   -SSR (Server Side Rendering) : 페이지 이동시에 일일이 HTML파일을 서버로부터 불러오는 방식
