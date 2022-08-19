@@ -55,6 +55,7 @@ const youtubeReducer = (state = { youtube: [] }, action) => {
 			return state;
 	}
 };
+
 //전달된 각각의 reducer를 하나로 합쳐서 반환
 const reducers = combineReducers({ memberReducer, youtubeReducer });
 
