@@ -64,7 +64,7 @@
 
     //DOM생성함수
     function createDOM() {
-      imgs.fetch(src => {
+      imgs.forEach(src => {
         tags += `<img src=${src}/>`
       })
       vids.forEach(src => {
@@ -73,6 +73,45 @@
       defaults.innerHML = tags;
     }
 
+
+    //이미지소스 로딩완료 겸사함수
+    //이미지소스가 모두 로딩완료시 프로미스객체로 true반환 함수
+    function loadImg() {
+      return new Promise((res, rej) => {
+        let countImg = 0;
+        const imgDOM = defaults.querySelectorAll('img');
+
+        imgDOM.forEach(img => {
+          img.onload = () => {
+            countImg++;
+            console.log('img loaded..', countImg);
+            if (countImg === lenImg) {
+              res(true);
+            }
+          }
+        })
+      })
+    }
+
+
+
+    //영상소스가 모두 로딩완료되면 프로미스 객체로 true반환 함수
+    function loadvid() {
+      return new Promise((res, rej) => {
+        let countVid = 0;
+        const vidDOM = defaults.querySelectorAll('video');
+
+        vidDOM.forEach(vid => {
+          vid.onloadeddata = () => {
+            countVid++;
+            console.log('video loaded..', countVid);
+            if (countVid === lenVid) {
+              res(true);
+            }
+          }
+        })
+      })
+    }
   </script>
 </body>
 
