@@ -3,13 +3,17 @@ import Pop from '../common/Pop';
 //npm i react-masonry-component
 import Masonry from 'react-masonry-component';
 import { useEffect, useState, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Gallery() {
+	const dispatch = useDispatch();
 	const frame = useRef(null);
 	const input = useRef(null);
+
 	//추후 자식컴포넌트인 Pop에서 forwardRef로 전달되는 객체값을 참조하기위한 빈 참조객체 생성
 	const pop = useRef(null);
-	const [Items, setItems] = useState([]);
+	//store에 있는 flickr데이터를 가져옴 (처음 사이클에서는 빈배열  가져옴)
+	const Pics = useSelector((store) => store.flickrReducer.flickr);
 	const [Index, setIndex] = useState(0);
 	const [Loading, setLoading] = useState(true);
 	const [EnableClick, setEnableClick] = useState(false);
@@ -35,7 +39,13 @@ function Gallery() {
 		setEnableClick(false);
 		setLoading(true);
 		frame.current.classList.remove('on');
-		getFlickr({ type: 'search', tag: result });
+		dispatch({
+			type: 'FLICKR_START',
+			Opt: {
+				type: 'search',
+				tag: result,
+			},
+		});
 		input.current.value = '';
 	};
 
@@ -44,12 +54,28 @@ function Gallery() {
 		if (!EnableClick) return;
 		setLoading(true);
 		frame.current.classList.remove('on');
-		getFlickr({ type: 'user', user: e.target.getAttribute('user') });
+		dispatch({
+			type: 'FLICKR_START',
+			Opt: {
+				type: 'user',
+				user: e.target.getAttribute('user'),
+			},
+		});
 		setEnableClick(false);
 	};
 
 	//처음  호출시에는 interest방식으로 호출
-	useEffect(() => getFlickr({ type: 'user', user: user }), []);
+	//컴포넌트 마운트시
+	useEffect(() => {
+		dispatch({
+			//FLICKR_START액션타입의 액션 객체를 saga로 전달
+			type: 'FLICKR_START',
+			Opt: {
+				type: 'user',
+				user: user,
+			},
+		});
+	}, []);
 
 	return (
 		<>
@@ -75,7 +101,7 @@ function Gallery() {
 				<div className='frame' ref={frame}>
 					{/* masonry를 적용한 요소들의 부모컴포넌트를 Masonry로 만들고 태그명 지정하고 옵션객체 연결 */}
 					<Masonry elementType={'div'} options={masonryOptions}>
-						{Items.map((pic, idx) => {
+						{Pics.map((pic, idx) => {
 							return (
 								<article key={idx}>
 									<div className='inner'>
@@ -119,10 +145,10 @@ function Gallery() {
 			<Pop ref={pop}>
 				{/* Pop의 틀 자체는 부모요소에 계속 마운트되어 있다보니 아직 Items의 값이 불러와지지 않았을떄에는 오류 발생  */}
 				{/* Items의 값이 비어있지 않을떄 img에 Pop에 출력되도록 설정 */}
-				{Items.length !== 0 && (
+				{Pics.length !== 0 && (
 					<img
-						src={`https://live.staticflickr.com/${Items[Index].server}/${Items[Index].id}_${Items[Index].secret}_b.jpg`}
-						alt={Items[Index].title}
+						src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`}
+						alt={Pics[Index].title}
 					/>
 				)}
 			</Pop>
