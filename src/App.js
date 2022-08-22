@@ -1,8 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setYoutube, setMembers } from './redux/action';
-import axios from 'axios';
+import * as types from './redux/actionType';
 //common
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
@@ -23,22 +22,11 @@ import './scss/style.scss';
 function App() {
 	const dispatch = useDispatch();
 
-	const getYoutube = async () => {
-		const key = 'AIzaSyCMfwz2923Ts1sPkx0J7I0mnMHPmYKw4vo';
-		const playlist = 'PLHtvRFLN5v-VD95TBpr5Dh2zguWCjjmMG';
-		const num = 6;
-		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlist}&maxResults=${num}`;
-		await axios.get(url).then((json) => {
-			console.log(json.data.items);
-			dispatch(setYoutube(json.data.items));
-		});
-	};
-
 	useEffect(() => {
-		dispatch({ type: 'YOUTUBE_START' });
-		dispatch({ type: 'MEMBERS_START' });
+		dispatch({ type: types.YOUTUBE.start });
+		dispatch({ type: types.MEMBERS.start });
 		dispatch({
-			type: 'FLICKR_START',
+			type: types.FLICKR.start,
 			Opt: { type: 'user', user: '164021883@N04' },
 		});
 	}, []);
