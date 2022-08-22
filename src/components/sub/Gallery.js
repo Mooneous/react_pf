@@ -95,7 +95,7 @@ function Gallery() {
 					<input
 						type='text'
 						ref={input}
-						onkeyUp={(e) => {
+						onKeyUp={(e) => {
 							if (e.key === 'Enter') showSearch();
 						}}
 					/>
