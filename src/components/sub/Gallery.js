@@ -22,12 +22,16 @@ function Gallery() {
 	const num = 50;
 	const user = '164021883@N04';
 
+	//saga로 전달될 axios호출시 필요한 옵션값이 담길 state
+	const [Opt, setOpt] = useState({ type: 'user', user: user });
+
 	//interest요청 함수
 	const showInterest = () => {
 		if (!EnableClick) return;
 		setLoading(true);
 		frame.current.classList.remove('on');
-		getFlickr({ type: 'interest' });
+		//Opt값 변경 (itnerest)
+		setOpt({ type: 'interest' });
 		setEnableClick(false);
 	};
 
@@ -39,13 +43,8 @@ function Gallery() {
 		setEnableClick(false);
 		setLoading(true);
 		frame.current.classList.remove('on');
-		dispatch({
-			type: 'FLICKR_START',
-			Opt: {
-				type: 'search',
-				tag: result,
-			},
-		});
+		//Opt값 변경 (search)
+		setOpt({ type: 'search', tag: result });
 		input.current.value = '';
 	};
 
@@ -54,28 +53,17 @@ function Gallery() {
 		if (!EnableClick) return;
 		setLoading(true);
 		frame.current.classList.remove('on');
-		dispatch({
-			type: 'FLICKR_START',
-			Opt: {
-				type: 'user',
-				user: e.target.getAttribute('user'),
-			},
-		});
+		//Opt값 변경 (user)
+		setOpt({ type: 'user', user: e.target.getAttribute('user') });
 		setEnableClick(false);
 	};
 
 	//처음  호출시에는 interest방식으로 호출
 	//컴포넌트 마운트시
+	//Opt값이 변경될떄마다 dispath로 변경된 해당 Opt값을 Flickr_start액션객체에 담아서 saga에 전달
 	useEffect(() => {
-		dispatch({
-			//FLICKR_START액션타입의 액션 객체를 saga로 전달
-			type: 'FLICKR_START',
-			Opt: {
-				type: 'user',
-				user: user,
-			},
-		});
-	}, []);
+		dispatch({ type: 'FLICK_START', Opt });
+	}, [Opt]);
 
 	return (
 		<>
