@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 function Pics({ Scrolled, currentPos }) {
-	const Pics = useSelector((store) => store.flickrReducer.flickr);
+	const Pics = useSelector((store) => store.flickr.data);
 	//position = 전체 스크롤 거리값에서 해당 섹션 요소의 세로위치값을 뺀값
 	//해당박스가 활성화 된순간의 position값은 0이므로 좀더 정밀한 모션작업가능
 	const position = Scrolled - currentPos || 0;

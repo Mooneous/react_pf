@@ -13,7 +13,7 @@ function Gallery() {
 	//추후 자식컴포넌트인 Pop에서 forwardRef로 전달되는 객체값을 참조하기위한 빈 참조객체 생성
 	const pop = useRef(null);
 	//store에 있는 flickr데이터를 가져옴 (처음 사이클에서는 빈배열  가져옴)
-	const Pics = useSelector((store) => store.flickrReducer.flickr);
+	const Pics = useSelector((store) => store.flickr.data);
 
 	const [Index, setIndex] = useState(0);
 	const [Loading, setLoading] = useState(true);

@@ -11,7 +11,7 @@ function Youtube() {
 	const dispatch = useDispatch();
 	const pop = useRef(null);
 	const [Index, setIndex] = useState(0);
-	const Vids = useSelector((store) => store.youtubeReducer.youtube);
+	const Vids = useSelector((store) => store.youtube.data);
 
 	return (
 		<>
