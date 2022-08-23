@@ -2,24 +2,20 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 //fetch함수 정의
-export const fetchYoutube = createAsyncThunk(
+export const fetchMembers = createAsyncThunk(
 	//고유의 문자값 등록 (내부적으로 actionType 생성할때 활용되는 값)
-	'youtube/requestYoutube',
+	'members/requestMember',
 	async () => {
 		//axios요청할 URL생성
-		const key = 'AIzaSyCMfwz2923Ts1sPkx0J7I0mnMHPmYKw4vo';
-		const playlist = 'PLHtvRFLN5v-VD95TBpr5Dh2zguWCjjmMG';
-		const num = 6;
-		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlist}&maxResults=${num}`;
+		const url = process.env.PUBLIC_URL + '/DB/members.json';
 		const response = await axios.get(url);
-		return response.data.items;
+		return response.data.members;
 	}
 );
-
 //슬라이스 함수 생성
-const youtubeSlice = createSlice({
+const memberSlice = createSlice({
 	//내부적으로 전역으로 관리될 데이터가 값일 property이름으로 등록될 값
-	name: 'youtube',
+	name: 'members',
 	initialState: {
 		data: [],
 		isLoading: false,
@@ -27,18 +23,18 @@ const youtubeSlice = createSlice({
 
 	//아래 각각 대괄호 안에 fetch함수 이름 등록
 	extraReducers: {
-		[fetchYoutube.pending]: (state) => {
+		[fetchMembers.pending]: (state) => {
 			state.isLoading = true;
 		},
-		[fetchYoutube.fulfilled]: (state, action) => {
+		[fetchMembers.fulfilled]: (state, action) => {
 			state.isLoading = false;
 			state.data = action.payload;
 		},
-		[fetchYoutube.rejected]: (state) => {
+		[fetchMembers.rejected]: (state) => {
 			state.isLoading = false;
 		},
 	},
 });
 
 //해당 슬라이스 export
-export default youtubeSlice.reducer;
+export default memberSlice.reducer;
